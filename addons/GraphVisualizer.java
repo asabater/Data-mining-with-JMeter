@@ -48,7 +48,6 @@ import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jmeter.visualizers.Sample;
 import org.apache.jmeter.visualizers.gui.AbstractVisualizer;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class implements a statistical analyser that calculates both the average
  * and the standard deviation of the sampling process and outputs them as
@@ -74,56 +73,56 @@ public class GraphVisualizer extends AbstractVisualizer implements
 
 	/** The choosertitle. */
 	private String choosertitle;
-	
+
 	/** The destination folder. */
 	public static String destinationFolder;
-	
+
 	/** The test id. */
 	public static int testId;
-	
+
 	/** The req url. */
 	private String reqUrl;
-	
+
 	/** The clean url. */
 	private String cleanUrl;
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 240L;
-	
+
 	/** The Constant ZERO. */
 	private static final String ZERO = "0"; //$NON-NLS-1$
 
 	/** The log file name. */
 	public static String logFileName;
-	
+
 	/** The result file name. */
 	public static String resultFileName;
-	
+
 	/** The nf. */
 	private NumberFormat nf = NumberFormat.getInstance(); // OK, because used in
 															// synchronised
 															// method
 	/** The log file. */
-															private static File logFile;
-	
+	private static File logFile;
+
 	/** The writer log. */
 	private static FileWriter writerLog;
-	
+
 	/** The result file. */
 	private static File resultFile;
-	
+
 	/** The writer result. */
 	private static FileWriter writerResult;
 
 	/** The model. */
 	private CachingStatCalculator model;
-	
+
 	/** The max y field. */
 	private JTextField maxYField = null;
-	
+
 	/** The min y field. */
 	private JTextField minYField = null;
-	
+
 	/** The no samples field. */
 	private JTextField noSamplesField = null;
 
@@ -135,37 +134,37 @@ public class GraphVisualizer extends AbstractVisualizer implements
 
 	/** The minute. */
 	private String minute = JMeterUtils.getResString("minute"); // $NON-NLS-1$
-	
+
 	/** The graph. */
 	private Graph graph;
-	
+
 	/** The data. */
 	private JCheckBox data;
-	
+
 	/** The average. */
 	private JCheckBox average;
-	
+
 	/** The deviation. */
 	private JCheckBox deviation;
-	
+
 	/** The throughput. */
 	private JCheckBox throughput;
-	
+
 	/** The median. */
 	private JCheckBox median;
-	
+
 	/** The data field. */
 	private JTextField dataField;
-	
+
 	/** The average field. */
 	private JTextField averageField;
-	
+
 	/** The deviation field. */
 	private JTextField deviationField;
-	
+
 	/** The throughput field. */
 	private JTextField throughputField;
-	
+
 	/** The median field. */
 	private JTextField medianField;
 
@@ -196,8 +195,9 @@ public class GraphVisualizer extends AbstractVisualizer implements
 
 	/**
 	 * Update gui.
-	 *
-	 * @param s the s
+	 * 
+	 * @param s
+	 *            the s
 	 */
 	public synchronized void updateGui(Sample s) {
 		System.out.print(s);
@@ -216,8 +216,9 @@ public class GraphVisualizer extends AbstractVisualizer implements
 
 	/**
 	 * Adds the.
-	 *
-	 * @param res the res
+	 * 
+	 * @param res
+	 *            the res
 	 */
 	public void add(SampleResult res) {
 		String sSistemaOperativo = System.getProperty("os.name");
@@ -267,8 +268,12 @@ public class GraphVisualizer extends AbstractVisualizer implements
 			writer.write(res.getResponseDataAsString());
 
 			writer.close();
+			
+			logFile = new File(getDestinationFolder() + "/"
+					+ getLogFileName());
 
 			FileWriter writerLog = new FileWriter(logFile, true);
+
 			writerLog.append("#" + cleanUrl + "@");
 			writerLog.append(getDestinationFolder() + "/" + folderName + "/"
 					+ filename + "\n");
@@ -280,26 +285,27 @@ public class GraphVisualizer extends AbstractVisualizer implements
 
 	/**
 	 * Gets the label resource.
-	 *
+	 * 
 	 * @return the label resource
 	 */
 	public String getLabelResource() {
 		return "graph_results_title"; // $NON-NLS-1$
 	}
 
-	
 	/**
-	 * Gets the static label.
-	 * Note: Rewrited to show the label we want
-	 *
+	 * Gets the static label. Note: Changed to show the label we want
+	 * 
 	 * @return the static label
 	 */
 	public String getStaticLabel() {
 		return "HTML Downloader";
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
 	 */
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getItem() == data) {
@@ -337,7 +343,7 @@ public class GraphVisualizer extends AbstractVisualizer implements
 	// @Override
 	/**
 	 * To string.
-	 *
+	 * 
 	 * @return the string
 	 */
 	public String toString() {
@@ -407,11 +413,12 @@ public class GraphVisualizer extends AbstractVisualizer implements
 	 * Creates a text field to be used for the value of a Y axis label. These
 	 * fields hold the minimum and maximum values for the graph. The units are
 	 * kept in a separate label outside of this field.
-	 *
-	 * @param length the number of characters which the field will use to calculate
-	 * its preferred width. This should be set to the maximum number
-	 * of digits that are expected to be necessary to hold the label
-	 * value.
+	 * 
+	 * @param length
+	 *            the number of characters which the field will use to calculate
+	 *            its preferred width. This should be set to the maximum number
+	 *            of digits that are expected to be necessary to hold the label
+	 *            value.
 	 * @return a text field configured to be used in the Y axis
 	 * @see #createYAxisPanel(String, JTextField)
 	 */
@@ -428,12 +435,14 @@ public class GraphVisualizer extends AbstractVisualizer implements
 	/**
 	 * Creates a panel for an entire Y axis label. This includes the dynamic
 	 * value as well as the unit label.
-	 *
-	 * @param labelResourceName the name of the label resource. This is used to look up the
-	 * label text using {@link JMeterUtils#getResString(String)}.
-	 * @param field the field
+	 * 
+	 * @param labelResourceName
+	 *            the name of the label resource. This is used to look up the
+	 *            label text using {@link JMeterUtils#getResString(String)}.
+	 * @param field
+	 *            the field
 	 * @return a panel containing both the dynamic and static parts of a Y axis
-	 * label
+	 *         label
 	 */
 	private JPanel createYAxisPanel(String labelResourceName, JTextField field) {
 		JPanel panel = new JPanel(new FlowLayout());
@@ -448,7 +457,7 @@ public class GraphVisualizer extends AbstractVisualizer implements
 	 * Creates a panel which allows the user to choose the folder where the
 	 * sourcecode have to be saved and to display the directed acyclic graphs
 	 * from the realations between the webpages.
-	 *
+	 * 
 	 * @return a panel allowing the user to choose which graphs to display
 	 */
 	public JPanel createChoosePanel() {
@@ -480,7 +489,7 @@ public class GraphVisualizer extends AbstractVisualizer implements
 
 	/**
 	 * Gets the destination folder.
-	 *
+	 * 
 	 * @return the destination folder
 	 */
 	public static String getDestinationFolder() {
@@ -489,8 +498,9 @@ public class GraphVisualizer extends AbstractVisualizer implements
 
 	/**
 	 * Sets the destination folder.
-	 *
-	 * @param value the new destination folder
+	 * 
+	 * @param value
+	 *            the new destination folder
 	 */
 	public static void setDestinationFolder(String value) {
 		destinationFolder = value;
@@ -498,26 +508,29 @@ public class GraphVisualizer extends AbstractVisualizer implements
 
 	/**
 	 * Gets the log file name.
-	 *
+	 * 
 	 * @return the log file name
 	 */
 	public static String getLogFileName() {
+		System.out.println("getLogFileName:" + logFileName);
 		return logFileName;
 	}
 
 	/**
 	 * Gets the result file name.
-	 *
+	 * 
 	 * @return the result file name
 	 */
 	public static String getResultFileName() {
+		System.out.println("getResultFileName:" + resultFileName);
 		return resultFileName;
 	}
 
 	/**
 	 * Sets the log file name.
-	 *
-	 * @param s the new log file name
+	 * 
+	 * @param s
+	 *            the new log file name
 	 */
 	public static void setLogFileName(String s) {
 		logFileName = s;
@@ -525,8 +538,9 @@ public class GraphVisualizer extends AbstractVisualizer implements
 
 	/**
 	 * Sets the result file name.
-	 *
-	 * @param s the new result file name
+	 * 
+	 * @param s
+	 *            the new result file name
 	 */
 	public static void setResultFileName(String s) {
 		resultFileName = s;
@@ -646,10 +660,12 @@ public class GraphVisualizer extends AbstractVisualizer implements
 	 * Creates a label for one of the fields used to display the graph's current
 	 * values. Neither the label created by this method or the
 	 * <code>field</code> passed as a parameter is added to the GUI here.
-	 *
-	 * @param labelResourceName the name of the label resource. This is used to look up the
-	 * label text using {@link JMeterUtils#getResString(String)}.
-	 * @param field the field this label is being created for.
+	 * 
+	 * @param labelResourceName
+	 *            the name of the label resource. This is used to look up the
+	 *            label text using {@link JMeterUtils#getResString(String)}.
+	 * @param field
+	 *            the field this label is being created for.
 	 * @return the j label
 	 */
 	private JLabel createInfoLabel(String labelResourceName, JTextField field) {
@@ -664,21 +680,25 @@ public class GraphVisualizer extends AbstractVisualizer implements
 	 * the current graph values. This method exists to help with laying out the
 	 * fields in columns. If one or more components are null then these
 	 * components will be represented by blank space.
-	 *
-	 * @param label1 the label for the first field. This label will be placed in
-	 * the upper left section of the panel. If this parameter is
-	 * null, this section of the panel will be left blank.
-	 * @param field1 the field corresponding to the first label. This field will be
-	 * placed in the upper right section of the panel. If this
-	 * parameter is null, this section of the panel will be left
-	 * blank.
-	 * @param label2 the label for the second field. This label will be placed in
-	 * the lower left section of the panel. If this parameter is
-	 * null, this section of the panel will be left blank.
-	 * @param field2 the field corresponding to the second label. This field will
-	 * be placed in the lower right section of the panel. If this
-	 * parameter is null, this section of the panel will be left
-	 * blank.
+	 * 
+	 * @param label1
+	 *            the label for the first field. This label will be placed in
+	 *            the upper left section of the panel. If this parameter is
+	 *            null, this section of the panel will be left blank.
+	 * @param field1
+	 *            the field corresponding to the first label. This field will be
+	 *            placed in the upper right section of the panel. If this
+	 *            parameter is null, this section of the panel will be left
+	 *            blank.
+	 * @param label2
+	 *            the label for the second field. This label will be placed in
+	 *            the lower left section of the panel. If this parameter is
+	 *            null, this section of the panel will be left blank.
+	 * @param field2
+	 *            the field corresponding to the second label. This field will
+	 *            be placed in the lower right section of the panel. If this
+	 *            parameter is null, this section of the panel will be left
+	 *            blank.
 	 * @return the box
 	 */
 	private Box createInfoColumn(JLabel label1, JTextField field1,
@@ -706,13 +726,17 @@ public class GraphVisualizer extends AbstractVisualizer implements
 
 	/**
 	 * Creates a window with a folder selector.
-	 *
+	 * 
 	 * @return a window with a JFileChooser
 	 */
 	public class MySelectFolder implements ActionListener {
 
-		/* (non-Javadoc)
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
+		 * )
 		 */
 		public void actionPerformed(ActionEvent e) {
 			JFileChooser folderChooser = new JFileChooser();
@@ -724,22 +748,22 @@ public class GraphVisualizer extends AbstractVisualizer implements
 						.getAbsolutePath());
 				try {
 					// LogFile creation
-					setLogFileName("log" + testId + ".txt");
-					setResultFileName("DAG" + testId + ".xml");
+					setLogFileName("log.txt");
+					// setResultFileName("DAG" + testId + ".xml");
 
 					logFile = new File(getDestinationFolder() + "/"
 							+ getLogFileName());
-					resultFile = new File(getDestinationFolder() + "/"
-							+ getResultFileName());
+					// resultFile = new File(getDestinationFolder() + "/"
+					// + getResultFileName());
 
 					FileWriter writerLog2 = new FileWriter(logFile);
-					FileWriter writerResult = new FileWriter(resultFile);
+					// FileWriter writerResult = new FileWriter(resultFile);
 
 					writerLog2
 							.append("#Internal use - DO NOT DELETE OR MODIFY#\n");
 					writerLog2.close();
 
-					writerResult.close();
+//					writerResult.close();
 				} catch (IOException ex) {
 					ex.printStackTrace();
 				}

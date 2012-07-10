@@ -26,6 +26,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -51,6 +54,7 @@ import org.apache.jmeter.extractor.XPathExtractor;
 import org.apache.jmeter.processor.gui.AbstractPostProcessorGui;
 import org.apache.jmeter.testelement.TestElement;
 import org.apache.jmeter.util.JMeterUtils;
+import org.apache.jmeter.visualizers.GraphVisualizer;
 import org.apache.jorphan.gui.JLabeledTextField;
 
 import addons.ManageXPaths;
@@ -473,7 +477,7 @@ public class XPathExtractorGui extends AbstractPostProcessorGui {
 					for (File fTemp : files) {
 						System.out.println(fTemp.getName());
 						fileNameTemp = fTemp.getName();
-						if (fileNameTemp.indexOf("log-") != -1) {
+						if (fileNameTemp.indexOf("log") != -1) {
 							found = true;
 						}
 					}
@@ -528,6 +532,12 @@ public class XPathExtractorGui extends AbstractPostProcessorGui {
 		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 		 */
 		public void actionPerformed(ActionEvent e) {
+			Calendar cal = Calendar.getInstance();
+			DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd.HH.mm.ss");
+
+			String resultfilename = dateFormat.format(cal.getTime()) + ".xml";
+			
+			GraphVisualizer.setResultFileName(resultfilename);
 			XPathExtractor xpe = new XPathExtractor();
 			xpe.analyzeSamples();
 

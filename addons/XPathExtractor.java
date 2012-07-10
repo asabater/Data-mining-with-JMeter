@@ -827,7 +827,6 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 			BufferedReader br = new BufferedReader(fr);
 
-			// Lectura del fichero
 			String linea;
 			linea = br.readLine();
 			try {
@@ -837,7 +836,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 					/* From # to @ */
 					webs.add(linea.substring(1, linea.indexOf("@")));
 
-					System.out.println("webs:" + webs);
+					System.out.println("webs:" + webs.size());
 
 				}
 			} catch (IOException e) {
@@ -931,9 +930,12 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 		try {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory
 					.newInstance();
+			
+			
 
 			docBuilder = docFactory.newDocumentBuilder();
 			doc = docBuilder.newDocument();
+			
 
 			// rootElement is the super-root node of the DAG
 			rootElement = doc.createElement("graphml");
