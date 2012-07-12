@@ -996,7 +996,11 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 				CDATASection cdata = doc.createCDATASection(tn.getContent());
 				dataEtiqueta.appendChild(cdata);
 
-				tagNode.appendChild(dataEtiqueta);
+				/* 
+				 * dataEtiqueta is commented until final decision
+				 * Posibilities: Sourcecode, opener tag, none...
+				 */
+				//tagNode.appendChild(dataEtiqueta);
 
 				dataWeb = doc.createElement("web");
 				dataWeb.setAttribute("url", tn.getWeb());
