@@ -55,6 +55,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import javax.swing.JFileChooser;
+import javax.swing.*;
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.*;
@@ -101,7 +102,7 @@ import addons.LevenshteinDistance;
  */
 public class XPathExtractor extends AbstractScopedTestElement implements
 		PostProcessor, Serializable {
-	
+
 	/** The Constant log. */
 	private static final Logger log = LoggingManager.getLoggerForClass();
 
@@ -114,128 +115,139 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 	// + JMX file attributes
 	/** The Constant XPATH_QUERY. */
 	private static final String XPATH_QUERY = "XPathExtractor.xpathQuery"; // $NON-NLS-1$
-	
+
 	/** The Constant REFNAME. */
 	private static final String REFNAME = "XPathExtractor.refname"; // $NON-NLS-1$
-	
+
 	/** The Constant DEFAULT. */
 	private static final String DEFAULT = "XPathExtractor.default"; // $NON-NLS-1$
-	
+
 	/** The Constant TOLERANT. */
 	private static final String TOLERANT = "XPathExtractor.tolerant"; // $NON-NLS-1$
-	
+
 	/** The Constant NAMESPACE. */
 	private static final String NAMESPACE = "XPathExtractor.namespace"; // $NON-NLS-1$
-	
+
 	/** The Constant QUIET. */
 	private static final String QUIET = "XPathExtractor.quiet"; // $NON-NLS-1$
-	
+
 	/** The Constant REPORT_ERRORS. */
 	private static final String REPORT_ERRORS = "XPathExtractor.report_errors"; // $NON-NLS-1$
-	
+
 	/** The Constant SHOW_WARNINGS. */
 	private static final String SHOW_WARNINGS = "XPathExtractor.show_warnings"; // $NON-NLS-1$
-	
+
 	/** The Constant DOWNLOAD_DTDS. */
 	private static final String DOWNLOAD_DTDS = "XPathExtractor.download_dtds"; // $NON-NLS-1$
-	
+
 	/** The Constant WHITESPACE. */
 	private static final String WHITESPACE = "XPathExtractor.whitespace"; // $NON-NLS-1$
-	
+
 	/** The Constant VALIDATE. */
 	private static final String VALIDATE = "XPathExtractor.validate"; // $NON-NLS-1$
-	
+
 	/** The Constant FRAGMENT. */
 	private static final String FRAGMENT = "XPathExtractor.fragment"; // $NON-NLS-1$
 	// - JMX file attributes
 
 	/** The fr. */
 	private FileReader fr = null;
-	
+
 	/** The br. */
 	private BufferedReader br = null;
-	
+
 	/** The file log. */
 	private File fileLog = null;
 
 	/** The root element. */
 	private Element rootElement;
-	
+
+	/** The root element for samples. */
+	private Element rootElementSample;
+
 	/** The graph node. */
 	private Element graphNode;
-	
+
+	/** The graph nod 4 samples. */
+	private Element graphNodeSample;
+
 	/** The sample root. */
 	private Element sampleRoot;
-	
+
 	/** The sample node. */
 	protected Element sampleNode;
-	
+
 	/** The size node. */
 	private Element sizeNode;
-	
+
 	/** The etiqueta node. */
 	private Element etiquetaNode;
-	
+
 	/** The tag node. */
 	private Element tagNode;
-	
+
+	/** The tag node 4 sample */
+	private Element tagNodeSample;
+
 	/** The data size. */
 	private Element dataSize;
-	
+
 	/** The data etiqueta. */
 	private Element dataEtiqueta;
-	
+
 	/** The data web. */
 	private Element dataWeb;
-	
+
 	/** The data date. */
 	private Element dataDate;
-	
+
 	/** The edge node. */
 	private Element edgeNode;
 
 	/** The doc builder. */
 	private DocumentBuilder docBuilder;
-	
+
 	/** The doc. */
 	private Document doc;
 
 	/** The node id. */
 	protected Integer nodeID = 0;
-	
+
 	/** The root id. */
 	protected Integer rootID = 0;
-	
+
 	/** The processing node. */
 	private Integer processingNode = 0;
-	
+
 	/** The xpaths. */
 	private static List<String> xpaths = new ArrayList<String>();
-	
+
 	/** The samples. */
 	private ArrayList<String> samples;
-	
+
 	/** The xpath len. */
 	private static Integer xpathLen = 0;
-	
+
 	/** The node counter. */
 	private static Integer nodeCounter = 0;
 
 	// private TempNode tn;
 	/** The list nodes. */
 	public static ArrayList<TempNode> listNodes;
-	
+
 	/** The web client. */
 	final WebClient webClient = new WebClient();
-	
+
 	/** The current page. */
 	private HtmlPage currentPage;
 
 	/**
 	 * Concat.
-	 *
-	 * @param s1 the s1
-	 * @param s2 the s2
+	 * 
+	 * @param s1
+	 *            the s1
+	 * @param s2
+	 *            the s2
 	 * @return the string
 	 */
 	private String concat(String s1, String s2) {
@@ -244,9 +256,11 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Concat.
-	 *
-	 * @param s1 the s1
-	 * @param i the i
+	 * 
+	 * @param s1
+	 *            the s1
+	 * @param i
+	 *            the i
 	 * @return the string
 	 */
 	private String concat(String s1, int i) {
@@ -257,7 +271,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 	 * getId return next node sequential node identifier
 	 * 
 	 * handleMatch(res, xpaths[j], GraphVisualizer.getResultFileName());
-	 *
+	 * 
 	 * @return the integer
 	 */
 	protected Integer nextNodeID() {
@@ -266,7 +280,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Next root id.
-	 *
+	 * 
 	 * @return the integer
 	 */
 	protected Integer nextRootID() {
@@ -362,10 +376,13 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Adds the assertion failure.
-	 *
-	 * @param previousResult the previous result
-	 * @param thrown the thrown
-	 * @param setFailed the set failed
+	 * 
+	 * @param previousResult
+	 *            the previous result
+	 * @param thrown
+	 *            the thrown
+	 * @param setFailed
+	 *            the set failed
 	 */
 	private void addAssertionFailure(final SampleResult previousResult,
 			final Throwable thrown, final boolean setFailed) {
@@ -383,8 +400,9 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 	/* ============= object properties ================ */
 	/**
 	 * Sets the x path query.
-	 *
-	 * @param val the new x path query
+	 * 
+	 * @param val
+	 *            the new x path query
 	 */
 	public void setXPathQuery(String val) {
 		setProperty(XPATH_QUERY, val);
@@ -392,7 +410,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Gets the x path query.
-	 *
+	 * 
 	 * @return the x path query
 	 */
 	public String getXPathQuery() {
@@ -401,8 +419,9 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Sets the ref name.
-	 *
-	 * @param refName the new ref name
+	 * 
+	 * @param refName
+	 *            the new ref name
 	 */
 	public void setRefName(String refName) {
 		setProperty(REFNAME, refName);
@@ -410,7 +429,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Gets the ref name.
-	 *
+	 * 
 	 * @return the ref name
 	 */
 	public String getRefName() {
@@ -419,8 +438,9 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Sets the default value.
-	 *
-	 * @param val the new default value
+	 * 
+	 * @param val
+	 *            the new default value
 	 */
 	public void setDefaultValue(String val) {
 		setProperty(DEFAULT, val);
@@ -428,7 +448,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Gets the default value.
-	 *
+	 * 
 	 * @return the default value
 	 */
 	public String getDefaultValue() {
@@ -437,8 +457,9 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Sets the tolerant.
-	 *
-	 * @param val the new tolerant
+	 * 
+	 * @param val
+	 *            the new tolerant
 	 */
 	public void setTolerant(boolean val) {
 		setProperty(new BooleanProperty(TOLERANT, val));
@@ -446,7 +467,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Checks if is tolerant.
-	 *
+	 * 
 	 * @return true, if is tolerant
 	 */
 	public boolean isTolerant() {
@@ -455,8 +476,9 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Sets the name space.
-	 *
-	 * @param val the new name space
+	 * 
+	 * @param val
+	 *            the new name space
 	 */
 	public void setNameSpace(boolean val) {
 		setProperty(new BooleanProperty(NAMESPACE, val));
@@ -464,7 +486,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Use name space.
-	 *
+	 * 
 	 * @return true, if successful
 	 */
 	public boolean useNameSpace() {
@@ -473,8 +495,9 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Sets the report errors.
-	 *
-	 * @param val the new report errors
+	 * 
+	 * @param val
+	 *            the new report errors
 	 */
 	public void setReportErrors(boolean val) {
 		setProperty(REPORT_ERRORS, val, false);
@@ -482,7 +505,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Report errors.
-	 *
+	 * 
 	 * @return true, if successful
 	 */
 	public boolean reportErrors() {
@@ -491,8 +514,9 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Sets the show warnings.
-	 *
-	 * @param val the new show warnings
+	 * 
+	 * @param val
+	 *            the new show warnings
 	 */
 	public void setShowWarnings(boolean val) {
 		setProperty(SHOW_WARNINGS, val, false);
@@ -500,7 +524,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Show warnings.
-	 *
+	 * 
 	 * @return true, if successful
 	 */
 	public boolean showWarnings() {
@@ -509,8 +533,9 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Sets the quiet.
-	 *
-	 * @param val the new quiet
+	 * 
+	 * @param val
+	 *            the new quiet
 	 */
 	public void setQuiet(boolean val) {
 		setProperty(QUIET, val, true);
@@ -518,7 +543,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Checks if is quiet.
-	 *
+	 * 
 	 * @return true, if is quiet
 	 */
 	public boolean isQuiet() {
@@ -527,7 +552,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Should we return fragment as text, rather than text of fragment?.
-	 *
+	 * 
 	 * @return true if we should return fragment rather than text
 	 */
 	public boolean getFragment() {
@@ -536,8 +561,9 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Should we return fragment as text, rather than text of fragment?.
-	 *
-	 * @param selected true to return fragment.
+	 * 
+	 * @param selected
+	 *            true to return fragment.
 	 */
 	public void setFragment(boolean selected) {
 		setProperty(FRAGMENT, selected, false);
@@ -547,14 +573,20 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 	/**
 	 * Converts (X)HTML response to DOM object Tree. This version cares of
 	 * charset of response.
-	 *
-	 * @param unicodeData the unicode data
+	 * 
+	 * @param unicodeData
+	 *            the unicode data
 	 * @return the document
-	 * @throws UnsupportedEncodingException the unsupported encoding exception
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws ParserConfigurationException the parser configuration exception
-	 * @throws SAXException the sAX exception
-	 * @throws TidyException the tidy exception
+	 * @throws UnsupportedEncodingException
+	 *             the unsupported encoding exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 * @throws ParserConfigurationException
+	 *             the parser configuration exception
+	 * @throws SAXException
+	 *             the sAX exception
+	 * @throws TidyException
+	 *             the tidy exception
 	 */
 	private Document parseResponse(String unicodeData)
 			throws UnsupportedEncodingException, IOException,
@@ -576,12 +608,16 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Extract value from Document d by XPath query.
-	 *
-	 * @param d the document
-	 * @param query the query to execute
-	 * @param matchStrings list of matched strings (may include nulls)
+	 * 
+	 * @param d
+	 *            the document
+	 * @param query
+	 *            the query to execute
+	 * @param matchStrings
+	 *            list of matched strings (may include nulls)
 	 * @return the values for x path
-	 * @throws TransformerException the transformer exception
+	 * @throws TransformerException
+	 *             the transformer exception
 	 */
 	private void getValuesForXPath(Document d, String query,
 			List<String> matchStrings) throws TransformerException {
@@ -591,8 +627,9 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Sets the whitespace.
-	 *
-	 * @param selected the new whitespace
+	 * 
+	 * @param selected
+	 *            the new whitespace
 	 */
 	public void setWhitespace(boolean selected) {
 		setProperty(WHITESPACE, selected, false);
@@ -600,7 +637,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Checks if is whitespace.
-	 *
+	 * 
 	 * @return true, if is whitespace
 	 */
 	public boolean isWhitespace() {
@@ -609,8 +646,9 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Sets the validating.
-	 *
-	 * @param selected the new validating
+	 * 
+	 * @param selected
+	 *            the new validating
 	 */
 	public void setValidating(boolean selected) {
 		setProperty(VALIDATE, selected);
@@ -618,7 +656,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Checks if is validating.
-	 *
+	 * 
 	 * @return true, if is validating
 	 */
 	public boolean isValidating() {
@@ -627,8 +665,9 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Sets the download dt ds.
-	 *
-	 * @param selected the new download dt ds
+	 * 
+	 * @param selected
+	 *            the new download dt ds
 	 */
 	public void setDownloadDTDs(boolean selected) {
 		setProperty(DOWNLOAD_DTDS, selected, false);
@@ -636,7 +675,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Checks if is download dt ds.
-	 *
+	 * 
 	 * @return true, if is download dt ds
 	 */
 	public boolean isDownloadDTDs() {
@@ -654,7 +693,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 		result.add(getXPathQuery());
 		return result;
 	}
-	
+
 	/**
 	 * Do the job - extract value from (X)HTML response using XPath Query.
 	 * Return value as variable defined by REFNAME. Returns DEFAULT value if not
@@ -683,14 +722,15 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 		ArrayList<String> webs = getWebListComplete(); // Here we save all the
 														// address
-		// analyzed
+														// analyzed
 
 		ArrayList<String> websMin = getWebList(); // Here we save all the
 													// address
-		// analyzed
+													// analyzed
 
 		ArrayList<String> samples = getSampleList(); // Here we save all .html
 														// samples
+
 		System.out.println("analyzeSamples > samples: " + samples.toString());
 
 		this.listNodes = new ArrayList<TempNode>();
@@ -706,19 +746,24 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 		// For each sample
 		for (int i = 0; i < samples.size(); i++) {
 			System.out.println("analyzeSamples > samples loop i: " + i);
-			treatSampleXPaths(webs.get(i), samples.get(i));
+			treatSample(webs.get(i), samples.get(i));
 		}
 
 		orderNodes();
+		// For each sample write an XML with da nodes
+		for (int i = 0; i < samples.size(); i++) {
+			System.out.println("analyzeSamples > samples loop i: " + i);
+			writeSampleXml(webs.get(i), samples.get(i));
+		}
+
 		writeResultsXml();
 
+		JOptionPane.showMessageDialog(null, "XML generation completed");
 	}
-
-
 
 	/**
 	 * Generate an array with all the downloaded samples.
-	 *
+	 * 
 	 * @return list containing all the downloaded samples
 	 */
 	protected ArrayList<String> getSampleList() {
@@ -763,7 +808,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Generate an array with all the site addresses.
-	 *
+	 * 
 	 * @return list containing all the site addresses
 	 */
 	protected ArrayList<String> getWebList() {
@@ -809,7 +854,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 	/**
 	 * Generate an array with all the site addresses.
-	 *
+	 * 
 	 * @return list containing all the site addresses
 	 */
 	protected ArrayList<String> getWebListComplete() {
@@ -852,12 +897,16 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 	}
 
 	/**
-	 * Order nodes found.
-	 *
+	 * orderNodes - Order nodes and fix father-sons relations (fragments)
+	 * 
+	 * @return list containing all the site addresses
 	 */
 	private void orderNodes() {
 
 		TempNode tna, tnb, auxTn;
+
+		ArrayList<String> webs = getWebListComplete();
+		// webs contains all address analyzed
 
 		/*
 		 * sca == startColumn A. scb == startColumn B. sla == startLine A. slb
@@ -866,55 +915,191 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 		 */
 		Integer sca, scb, sla, slb, eca, ecb, ela, elb;
 
-		/*
-		 * For all node - if node.getTarget != 0 skip node - for all nodes
-		 */
+		for (int k = 0; k < webs.size(); k++) {
+			/*
+			 * For all node - if node.getTarget != 0 skip node - for all nodes
+			 */
 
-		for (int i = 1; i < listNodes.size(); i++) {
-			tna = listNodes.get(i);
-			if (tna.getFatherId() != 0) { // Skip urls
+			for (int i = 0; i < listNodes.size(); i++) {
 
-				sca = (Integer) tna.getStartColumnNumber();
-				sla = (Integer) tna.getStartLineNumber();
-				eca = (Integer) tna.getEndColumnNumber();
-				ela = (Integer) tna.getEndLineNumber();
+				tna = listNodes.get(i);
+				if (!webs.get(k).equals(tna.getWeb())) {
+					continue;
+					// we only treat nodes from webs.get(k)
+					// others >> skip
+				}
+				if (tna.getFatherId() != 0) { // Skip urls
 
-				for (int j = 0; j < (listNodes.size() - i); j++) {
-					tnb = listNodes.get(j);
-					if (tnb.getFatherId() != 0) {
-						scb = (Integer) tnb.getStartColumnNumber();
-						slb = (Integer) tnb.getStartLineNumber();
-						ecb = (Integer) tnb.getEndColumnNumber();
-						elb = (Integer) tnb.getEndLineNumber();
+					sca = (Integer) tna.getStartColumnNumber();
+					sla = (Integer) tna.getStartLineNumber();
+					eca = (Integer) tna.getEndColumnNumber();
+					ela = (Integer) tna.getEndLineNumber();
 
-						if (slb > sla) { // greater line
-							auxTn = listNodes.get(j);
-							listNodes.set(j, listNodes.get(j + 1));
-							listNodes.set(j + 1, auxTn);
+					for (int j = 0; j < (listNodes.size() - i); j++) {
+						tnb = listNodes.get(j);
+						if (tnb.getFatherId() != 0) {
+							scb = (Integer) tnb.getStartColumnNumber();
+							slb = (Integer) tnb.getStartLineNumber();
+							ecb = (Integer) tnb.getEndColumnNumber();
+							elb = (Integer) tnb.getEndLineNumber();
 
-							// Hack to find lost sons !!!
-							if ((elb < ela) && (ecb < ela)) {
-								tnb.setFatherId(tna.getId());
-							}
+							if (slb > sla) { // greater line
+								auxTn = listNodes.get(j);
+								listNodes.set(j, listNodes.get(j + 1));
+								listNodes.set(j + 1, auxTn);
 
-						} else if ((slb == sla) && (scb > sca)) {
-							/*
-							 * Same line & greater column
-							 */
-							auxTn = listNodes.get(j);
-							listNodes.set(j, listNodes.get(j + 1));
-							listNodes.set(j + 1, auxTn);
+								// Hack to find lost sons !!!
+								if ((elb < ela) && (ecb < ela)) {
+									tnb.setFatherId(tna.getId());
+								}
 
-							// Hack to find lost sons !!!
-							if ((elb < ela) && (ecb < ela)) {
-								tnb.setFatherId(tna.getId());
+							} else if ((slb == sla) && (scb > sca)) {
+								/*
+								 * Same line & greater column
+								 */
+								auxTn = listNodes.get(j);
+								listNodes.set(j, listNodes.get(j + 1));
+								listNodes.set(j + 1, auxTn);
+
+								// Hack to find lost sons !!!
+								if ((elb < ela) && (ecb < ela)) {
+									tnb.setFatherId(tna.getId());
+								}
 							}
 						}
-					}
 
+					}
 				}
 			}
 		}
+
+	}
+
+	/*
+	 * writeSamplesXmls Write nodes at all samples into different XMLs at sample
+	 * html files folder... u know what I wanna say xD
+	 */
+	private void writeSampleXml(String web, String sampleLocation) {
+
+		TempNode tn, tn2;
+		ArrayList<Integer> nodeList = new ArrayList<Integer>();
+
+		System.out.println("writeSamplesXmls");
+		// JOptionPane.showMessageDialog(null, "writeSamplesXmls");
+
+		// ArrayList<String> webs = getWebListComplete(); // Here we save all
+		// the
+		// URLS (string)
+		// ArrayList<String> samples = getSampleList(); // Here we save all
+		// .html
+		// samples
+
+		// for (int i = 0; i < samples.size(); i++) {
+		System.out.println("writeSamplesXmls sampleLocation:" + sampleLocation);
+		try {
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory
+					.newInstance();
+
+			docBuilder = docFactory.newDocumentBuilder();
+			doc = docBuilder.newDocument();
+
+			// rootElementSample is the super-root node of the DAG
+			rootElementSample = doc.createElement("graphml");
+
+			graphNodeSample = doc.createElement("graph");
+			graphNodeSample.setAttribute("id", nextNodeID().toString());
+			graphNodeSample.setAttribute("edgedefault", "directed");
+
+			for (int j = 0; j < listNodes.size(); j++) {
+				System.out.println("listNodes j :" + j);
+
+				tn = listNodes.get(j);
+				if (!tn.foundAt(sampleLocation)) {
+					/**
+					 * Skip other tempNodes
+					 */
+					continue;
+				}
+
+				System.out.println("listNodes charged");
+				tagNodeSample = doc.createElement("node");
+				// JOptionPane.showMessageDialog(null,"test123" );
+
+				tagNodeSample.setAttribute("id", String.valueOf(tn.getId()));
+
+				if (nodeList.contains(tn.getId())) {
+					/* Avoid adding duplicates */
+					continue;
+				}
+
+				nodeList.add(tn.getId());
+
+				dataSize = doc.createElement("data");
+
+				dataSize.setAttribute("key", "size");
+
+				dataSize.setTextContent(String.valueOf(tn.getSize()));
+
+				tagNodeSample.appendChild(dataSize);
+
+				dataEtiqueta = doc.createElement("data");
+				dataEtiqueta.setAttribute("key", "etiqueta");
+
+				CDATASection cdata = doc.createCDATASection(tn.getContent());
+				dataEtiqueta.appendChild(cdata);
+
+				tagNodeSample.appendChild(dataEtiqueta);
+
+				dataWeb = doc.createElement("data");
+				dataWeb.setAttribute("key", "url");
+				dataWeb.setTextContent(tn.getWeb());
+				// dataWeb.setAttribute("url", tn.getWeb());
+
+				dataDate = doc.createElement("data");
+
+				// dataDate.setAttribute("data", tn.getDate());
+				dataDate.setAttribute("key", "time");
+				dataDate.setTextContent(tn.getDate());
+
+				tagNodeSample.appendChild(dataWeb);
+				tagNodeSample.appendChild(dataDate);
+
+				graphNodeSample.appendChild(tagNodeSample);
+
+			}
+
+			rootElementSample.appendChild(graphNodeSample);
+
+			doc.appendChild(rootElementSample);
+
+			// write the content into XML file
+			TransformerFactory transformerFactory = TransformerFactory
+					.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(doc);
+
+			String fileName = sampleLocation;
+			fileName = fileName.replace(".html", "");
+			fileName = fileName + ".xml";
+
+			System.out.println("fileName" + fileName);
+
+			String folder = GraphVisualizer.getDestinationFolder().replaceAll(
+					"%20", " ");// Patch to fix paths with
+								// white spaces
+			File archivo = new File(fileName);
+			StreamResult result = new StreamResult(archivo);
+
+			transformer.transform(source, result);
+
+		} catch (Exception e) {
+			System.out.println("writeSamplesXmls exception first try"
+					+ e.toString());
+			e.printStackTrace();
+		}
+
+		// }
+
 	}
 
 	/**
@@ -925,17 +1110,15 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 		ArrayList<Integer> nodeList = new ArrayList<Integer>();
 		String file;
 		String folder;
+		String web1, web2;
 		TempNode tn, tn2;
 		System.out.println("writeResultsXml2");
 		try {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory
 					.newInstance();
-			
-			
 
 			docBuilder = docFactory.newDocumentBuilder();
 			doc = docBuilder.newDocument();
-			
 
 			// rootElement is the super-root node of the DAG
 			rootElement = doc.createElement("graphml");
@@ -963,61 +1146,14 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 			System.out.println("listNodes.size()" + listNodes.size());
 
-			for (int i = 0; i < listNodes.size(); i++) {
-				System.out.println("listNodes i :" + i);
-				tn = listNodes.get(i);
-
-				// System.out.println("listNodes charged");
-				tagNode = doc.createElement("node");
-				// System.out.println("tagNode created");
-
-				tagNode.setAttribute("id", String.valueOf(tn.getId()));
-
-				if (nodeList.contains(tn.getId())) {
-					/* Avoid adding duplicates */
-					continue;
-				}
-
-				nodeList.add(tn.getId());
-				// System.out.println("setAttribute done");
-
-				dataSize = doc.createElement("data");
-				// System.out.println("dataSize created");
-				dataSize.setAttribute("key", "size");
-				// System.out.println("key size");
-				dataSize.setTextContent(String.valueOf(tn.getSize()));
-				// System.out.println("dataSize setTextContent");
-				// String.valueOf
-				tagNode.appendChild(dataSize);
-
-				dataEtiqueta = doc.createElement("data");
-				dataEtiqueta.setAttribute("key", "etiqueta");
-
-				CDATASection cdata = doc.createCDATASection(tn.getContent());
-				dataEtiqueta.appendChild(cdata);
-
-				/* 
-				 * dataEtiqueta is commented until final decision
-				 * Posibilities: Sourcecode, opener tag, none...
-				 */
-				//tagNode.appendChild(dataEtiqueta);
-
-				dataWeb = doc.createElement("web");
-				dataWeb.setAttribute("url", tn.getWeb());
-
-				dataDate = doc.createElement("date");
-
-				dataDate.setAttribute("when", tn.getDate());
-
-				rootElement.appendChild(tagNode);
-				// rootElement.appendChild(dataWeb);
-				// rootElement.appendChild(dataDate);
-			}
-
 			// Add edge father-son
 			for (int i = 0; i < listNodes.size(); i++) {
 				System.out.println("WriteResultsXml > add edges : i " + i);
 				tn = listNodes.get(i);
+				web1 = tn.getWeb();
+				if (web1 == null) {
+					continue;
+				}
 				String content = tn.getContent();
 
 				edgeNode = doc.createElement("edge");
@@ -1031,12 +1167,27 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 				rootElement.appendChild(edgeNode);
 
 				for (int j = i; j < listNodes.size(); j++) {
+
 					/* Do not calculate distance with the same node */
 					if (j == i) {
 						continue;
 					}
 					tn2 = listNodes.get(j);
 					String content2 = tn2.getContent();
+
+
+					web2 = tn2.getWeb();
+					if (web2 == null){
+						continue;
+					}
+					System.out.println("web1: " + web1 + ". web2: " + web2);
+					if (!web1.equals(web2)) {
+						/**
+						 * Skip other tempNodes
+						 */
+						continue;
+					}
+
 					// Only blocks with less than 100 chars of difference
 					// will be compared
 					if (Math.abs(content2.length() - content.length()) < 100) {
@@ -1071,8 +1222,8 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 			file = GraphVisualizer.getResultFileName().replaceAll("%20", " ");
 
 			folder = GraphVisualizer.getDestinationFolder().replaceAll("%20",
-					" ");// Patch to fix paths with
-							// white spaces
+					" ");// Patch to fix paths with white spaces
+
 			File archivo = new File(folder + "/" + file);
 			StreamResult result = new StreamResult(archivo);
 
@@ -1080,25 +1231,28 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 		} catch (Exception e) {
 			System.out.println("writeResultsXml exception first try"
 					+ e.toString());
+			e.printStackTrace();
 		}
 	}
 
 	/**
 	 * treatSample - Search and create new nodes for all the XPaths occurrences
 	 * into the sample, at sampleLocation.
-	 *
-	 * @param web the web
-	 * @param sampleLocation the sample location
+	 * 
+	 * @param web
+	 *            the web
+	 * @param sampleLocation
+	 *            the sample location
 	 * @return nothing
 	 */
-	public void treatSampleXPaths(String web, String sampleLocation) {
+	public void treatSample(String web, String sampleLocation) {
 
 		System.out.println("treatSample > sample:" + sampleLocation);
 
 		String date = sampleLocation;
 
-		// $ and % delimit where is the date
-		date = date.substring((date.indexOf("$") + 1), date.indexOf("%"));
+		// $ and _ limit where is the date
+		date = date.substring((date.indexOf("$") + 1), date.indexOf("_"));
 
 		// Put all the occurrences of this 'xpaths' into xpaths
 		for (int j = 0; j < XPath.getCountQuerys(); j++) {
@@ -1139,6 +1293,9 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 					tn.setDate(date);
 
 					tn.setFatherId(web);
+
+					tn.addSample(sampleLocation);
+
 					/* Saving Node limits */
 					tn.setStartColumnNumber(((HtmlDivision) matches.get(j))
 							.getStartColumnNumber());
@@ -1157,8 +1314,6 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 					// Adding tn to listNodes
 					XPathExtractor.listNodes.add(tn);
-
-					// treatSampleXpathString(tn.getId(), tn.getContent(), );
 				}
 			} catch (Exception e) {
 				System.out.println("EXception at treatSampleXpath"

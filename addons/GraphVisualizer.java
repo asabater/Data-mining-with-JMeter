@@ -236,13 +236,16 @@ public class GraphVisualizer extends AbstractVisualizer implements
 
 			reqUrl = res.getUrlAsString();
 
-			filename = "index.html";
+			cleanUrl = reqUrl;
+			cleanUrl = cleanUrl.replace("http", "");
+			cleanUrl = cleanUrl.replace(":", "");
+			cleanUrl = cleanUrl.replace("//", "");
+			// cleanUrl = cleanUrl.replace("www.", "");
+			cleanUrl = cleanUrl.replace("/", "");
 
-			cleanUrl = reqUrl.replace("http://", "");
-			cleanUrl = reqUrl.replace("www.", "");
-			cleanUrl = reqUrl.replace("/", "");
+			filename = cleanUrl + ".html";
 
-			String folderName = "$" + dateFormat.format(cal.getTime()) + "%";
+			String folderName = "$" + dateFormat.format(cal.getTime()) + "_";
 
 			File subfolder;
 
@@ -268,9 +271,8 @@ public class GraphVisualizer extends AbstractVisualizer implements
 			writer.write(res.getResponseDataAsString());
 
 			writer.close();
-			
-			logFile = new File(getDestinationFolder() + "/"
-					+ getLogFileName());
+
+			logFile = new File(getDestinationFolder() + "/" + getLogFileName());
 
 			FileWriter writerLog = new FileWriter(logFile, true);
 
@@ -755,15 +757,17 @@ public class GraphVisualizer extends AbstractVisualizer implements
 							+ getLogFileName());
 					// resultFile = new File(getDestinationFolder() + "/"
 					// + getResultFileName());
+					if (!logFile.exists()) {
+						FileWriter writerLog2 = new FileWriter(logFile);
+						// FileWriter writerResult = new FileWriter(resultFile);
 
-					FileWriter writerLog2 = new FileWriter(logFile);
-					// FileWriter writerResult = new FileWriter(resultFile);
+						writerLog2
+								.append("#Internal use - DO NOT DELETE OR MODIFY#\n");
+						writerLog2.close();
 
-					writerLog2
-							.append("#Internal use - DO NOT DELETE OR MODIFY#\n");
-					writerLog2.close();
+						// writerResult.close();
+					}
 
-//					writerResult.close();
 				} catch (IOException ex) {
 					ex.printStackTrace();
 				}

@@ -27,56 +27,59 @@ import org.w3c.dom.CDATASection;
 // TODO: Auto-generated Javadoc
 /**
  * The Class TempNode.
- *
+ * 
  * @description TempNode is used to declare temporal nodes used at execution
  * @author agustinsabaterpineiro
  * 
- * Created December 28, 2011
+ *         Created December 28, 2011
  */
 public class TempNode {
 
 	/** The id. */
 	private Integer id; // ID formed by the hash of the source
-	
+
 	/** The father id. */
 	private Integer fatherId; // Obvious
-	
+
 	/** The opener tag. */
 	private String openerTag; // Something ike "<div class='post-body')"
-	
+
 	/** The content. */
 	private String content; // All the content (without enclosing tags)
-	
+
 	/** The fathers. */
 	private ArrayList<Integer> fathers; // HTMLs file where it was found
-	
+
 	/** The sons. */
 	private ArrayList<Integer> sons; // HTMLs nodes found into the node
-	// private String node; // All the node (with enclosing tags)
+
+	/** Samples which has the node */
+	private ArrayList<String> samples;
+
 	/** The size. */
 	private Integer size = 0; // Number of chars
-	
+
 	/** The start column number. */
 	private Integer startColumnNumber = 0;
-	
+
 	/** The start line number. */
 	private Integer startLineNumber = 0;
-	
+
 	/** The end column number. */
 	private Integer endColumnNumber = 0;
-	
+
 	/** The end line number. */
 	private Integer endLineNumber = 0;
 
 	/** The web. */
 	private String web; // URL from html file
-	
+
 	/** The date. */
 	private String date = "";
 
 	/**
 	 * Gets the date.
-	 *
+	 * 
 	 * @return the date
 	 */
 	public String getDate() {
@@ -85,11 +88,53 @@ public class TempNode {
 
 	/**
 	 * Sets the date.
-	 *
-	 * @param date the date to set
+	 * 
+	 * @param date
+	 *            the date to set
 	 */
 	public void setDate(String date) {
 		this.date = date;
+	}
+
+	/**
+	 * @return the samples
+	 */
+	public ArrayList<String> getSamples() {
+		return samples;
+	}
+
+	/**
+	 * Adds a sample
+	 */
+	public void addSample(String sample) {
+		System.out.println("addSample" + sample);
+		System.out.println("addSample-samples" + this.samples.toString());
+		try {
+			this.samples.add(sample);
+		} catch (Exception e) {
+			System.out.println("Error at TempNode>addSample");
+		}
+	}
+
+	/**
+	 * Check if the sample exists in the nodeList
+	 */
+	public boolean foundAt(String sample) {
+		System.out.println("TempNode>foundAt-sample" + sample);
+		System.out.println("TempNode>foundAt-samples(size)" + samples.size());
+		if (this.samples.contains(sample)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * @param samples
+	 *            the samples to set
+	 */
+	public void setSamples(ArrayList<String> samples) {
+		this.samples = samples;
 	}
 
 	/** The node counter. */
@@ -97,8 +142,9 @@ public class TempNode {
 
 	/**
 	 * Constructor for the TempNode object.
-	 *
-	 * @param src the src
+	 * 
+	 * @param src
+	 *            the src
 	 */
 	public TempNode(String src) {
 		System.out.println("TempNode - TempNode()");
@@ -107,14 +153,16 @@ public class TempNode {
 
 	/**
 	 * Inits the.
-	 *
-	 * @param src the src
+	 * 
+	 * @param src
+	 *            the src
 	 */
 	public void init(String src) {
 
 		try {
 			this.id = src.hashCode();
 			this.setContent(src);
+			this.samples = new ArrayList<String>();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -123,7 +171,7 @@ public class TempNode {
 
 	/**
 	 * Gets the id.
-	 *
+	 * 
 	 * @return the id
 	 */
 	public Integer getId() {
@@ -132,7 +180,7 @@ public class TempNode {
 
 	/**
 	 * Gets the father id.
-	 *
+	 * 
 	 * @return the father id
 	 */
 	public Integer getFatherId() {
@@ -141,8 +189,9 @@ public class TempNode {
 
 	/**
 	 * Sets the father id.
-	 *
-	 * @param x the new father id
+	 * 
+	 * @param x
+	 *            the new father id
 	 */
 	public void setFatherId(String x) {
 		try {
@@ -154,8 +203,9 @@ public class TempNode {
 
 	/**
 	 * Sets the father id.
-	 *
-	 * @param x the new father id
+	 * 
+	 * @param x
+	 *            the new father id
 	 */
 	public void setFatherId(Integer x) {
 		try {
@@ -174,7 +224,7 @@ public class TempNode {
 
 	/**
 	 * Gets the start column number.
-	 *
+	 * 
 	 * @return the startColumnNumber
 	 */
 	public Integer getStartColumnNumber() {
@@ -183,8 +233,9 @@ public class TempNode {
 
 	/**
 	 * Sets the start column number.
-	 *
-	 * @param startColumnNumber the startColumnNumber to set
+	 * 
+	 * @param startColumnNumber
+	 *            the startColumnNumber to set
 	 */
 	public void setStartColumnNumber(Integer startColumnNumber) {
 		this.startColumnNumber = startColumnNumber;
@@ -192,7 +243,7 @@ public class TempNode {
 
 	/**
 	 * Gets the start line number.
-	 *
+	 * 
 	 * @return the startLineNumber
 	 */
 	public Integer getStartLineNumber() {
@@ -201,8 +252,9 @@ public class TempNode {
 
 	/**
 	 * Sets the start line number.
-	 *
-	 * @param startLineNumber the startLineNumber to set
+	 * 
+	 * @param startLineNumber
+	 *            the startLineNumber to set
 	 */
 	public void setStartLineNumber(Integer startLineNumber) {
 		this.startLineNumber = startLineNumber;
@@ -210,7 +262,7 @@ public class TempNode {
 
 	/**
 	 * Gets the end column number.
-	 *
+	 * 
 	 * @return the endColumnNumber
 	 */
 	public Integer getEndColumnNumber() {
@@ -219,8 +271,9 @@ public class TempNode {
 
 	/**
 	 * Sets the end column number.
-	 *
-	 * @param endColumnNumber the endColumnNumber to set
+	 * 
+	 * @param endColumnNumber
+	 *            the endColumnNumber to set
 	 */
 	public void setEndColumnNumber(Integer endColumnNumber) {
 		this.endColumnNumber = endColumnNumber;
@@ -228,7 +281,7 @@ public class TempNode {
 
 	/**
 	 * Gets the end line number.
-	 *
+	 * 
 	 * @return the endLineNumber
 	 */
 	public Integer getEndLineNumber() {
@@ -237,8 +290,9 @@ public class TempNode {
 
 	/**
 	 * Sets the end line number.
-	 *
-	 * @param endLineNumber the endLineNumber to set
+	 * 
+	 * @param endLineNumber
+	 *            the endLineNumber to set
 	 */
 	public void setEndLineNumber(Integer endLineNumber) {
 		this.endLineNumber = endLineNumber;
@@ -246,8 +300,9 @@ public class TempNode {
 
 	/**
 	 * Sets the opener tag.
-	 *
-	 * @param ot the ot
+	 * 
+	 * @param ot
+	 *            the ot
 	 * @return true, if successful
 	 */
 	public boolean setOpenerTag(String ot) {
@@ -263,8 +318,9 @@ public class TempNode {
 
 	/**
 	 * Sets the size.
-	 *
-	 * @param s the s
+	 * 
+	 * @param s
+	 *            the s
 	 * @return true, if successful
 	 */
 	public boolean setSize(Integer s) {
@@ -280,8 +336,9 @@ public class TempNode {
 
 	/**
 	 * Sets the web.
-	 *
-	 * @param web the web
+	 * 
+	 * @param web
+	 *            the web
 	 * @return true, if successful
 	 */
 	public boolean setWeb(String web) {
@@ -297,7 +354,7 @@ public class TempNode {
 
 	/**
 	 * Gets the web.
-	 *
+	 * 
 	 * @return the web
 	 */
 	public String getWeb() {
@@ -311,8 +368,9 @@ public class TempNode {
 	// public boolean setContent(String cont, String node, String pureContent) {
 	/**
 	 * Sets the content.
-	 *
-	 * @param cont the cont
+	 * 
+	 * @param cont
+	 *            the cont
 	 * @return true, if successful
 	 */
 	public boolean setContent(String cont) {
@@ -333,7 +391,7 @@ public class TempNode {
 
 	/**
 	 * Gets the content.
-	 *
+	 * 
 	 * @return the content
 	 */
 	public String getContent() {
@@ -342,7 +400,7 @@ public class TempNode {
 
 	/**
 	 * Gets the opener tag.
-	 *
+	 * 
 	 * @return the opener tag
 	 */
 	public String getOpenerTag() {
@@ -351,7 +409,7 @@ public class TempNode {
 
 	/**
 	 * Gets the size.
-	 *
+	 * 
 	 * @return the size
 	 */
 	public Integer getSize() {
@@ -360,7 +418,7 @@ public class TempNode {
 
 	/**
 	 * Gets the node counter.
-	 *
+	 * 
 	 * @return the node counter
 	 */
 	public static Integer getNodeCounter() {
