@@ -1166,6 +1166,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 				rootElement.appendChild(edgeNode);
 
+				/** Levistein Distance */
 				for (int j = i; j < listNodes.size(); j++) {
 
 					/* Do not calculate distance with the same node */
@@ -1181,12 +1182,12 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 						continue;
 					}
 					System.out.println("web1: " + web1 + ". web2: " + web2);
-					if (!web1.equals(web2)) {
-						/**
-						 * Skip other tempNodes
-						 */
-						continue;
-					}
+//					if (!web1.equals(web2)) {
+//						/**
+//						 * Skip other tempNodes
+//						 */
+//						continue;
+//					}
 
 					// Only blocks with less than 100 chars of difference
 					// will be compared

@@ -19,6 +19,7 @@ package org.apache.jmeter.extractor.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -261,7 +262,8 @@ public class XPathExtractorGui extends AbstractPostProcessorGui {
 	 */
 	private JPanel makeOptionParameterPanel() {
 		// int align = FlowLayout.LEFT; // or LEFT, RIGHT
-		JPanel panel = new JPanel(new BorderLayout());
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		JPanel panel2 = new JPanel(new GridBagLayout());
 
 		TitledBorder title;
@@ -274,9 +276,10 @@ public class XPathExtractorGui extends AbstractPostProcessorGui {
 		MySelectFolder msf = new MySelectFolder();
 		selectFolder.addActionListener(msf);
 
-		panel.add(selectFolder, BorderLayout.WEST);
-		panel.add(labelselectFolder, BorderLayout.CENTER);
 
+		panel.add(labelselectFolder, BorderLayout.NORTH);
+		panel.add(selectFolder, BorderLayout.CENTER);
+		
 		// Create the radio buttons.
 		JRadioButton xp_rb = new JRadioButton("XPaths (default)");
 		xp_rb.setMnemonic(KeyEvent.VK_X);
