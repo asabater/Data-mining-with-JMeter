@@ -1,9 +1,9 @@
-*.class
 
-# Package Files #
-*.war
-*.ear
+
+
 
 addons/.DS_Store
 
 addons/gui/.DS_Store
+
+.DS_Store
