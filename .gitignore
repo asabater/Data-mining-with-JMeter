@@ -10,3 +10,5 @@ $ cat .gitignore
 # También es posible ignorar todos los subdirectorios y archivos en un directorio determinado
 # tmp/**/* 
 *.class
+
+.DS_Store
