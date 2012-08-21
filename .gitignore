@@ -12,3 +12,5 @@ $ cat .gitignore
 *.class
 
 .DS_Store
+
+*.class
