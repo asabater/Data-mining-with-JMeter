@@ -706,12 +706,6 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 		// String sSistemaOperativo = System.getProperty("os.name");
 		// System.out.println("os: " +sSistemaOperativo);
 
-		// Initial part
-		// -For all sample
-		// for all XPATH
-		// for all fragment found
-		// create node (NODE) (1)
-
 		// ManageXPaths handle all the info about the User's XPaths
 		XPath x = new XPath();
 
@@ -774,8 +768,8 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 		ArrayList<String> samples = new ArrayList<String>();
 
 		try {
-
-			fileLog = new File(GraphVisualizer.getDestinationFolder() + "/"
+			
+			fileLog = new File(GraphVisualizer.getDestinationFolder() + System.getProperty("file.separator")
 					+ GraphVisualizer.getLogFileName());
 
 			FileReader fr = new FileReader(fileLog);
@@ -819,10 +813,10 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 		ArrayList<String> webs = new ArrayList<String>();
 
 		System.out.println("getWebList> logFile:"
-				+ GraphVisualizer.getDestinationFolder() + "/"
+				+ GraphVisualizer.getDestinationFolder() + System.getProperty("file.separator")
 				+ GraphVisualizer.getLogFileName());
 		try {
-			fileLog = new File(GraphVisualizer.getDestinationFolder() + "/"
+			fileLog = new File(GraphVisualizer.getDestinationFolder() + System.getProperty("file.separator")
 					+ GraphVisualizer.getLogFileName());
 
 			FileReader fr = new FileReader(fileLog);
@@ -865,7 +859,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 		ArrayList<String> webs = new ArrayList<String>();
 
 		System.out.println("getWebList> logFile:"
-				+ GraphVisualizer.getDestinationFolder() + "/"
+				+ GraphVisualizer.getDestinationFolder() + System.getProperty("file.separator")
 				+ GraphVisualizer.getLogFileName());
 		try {
 			fileLog = new File(GraphVisualizer.getDestinationFolder() + "/"
@@ -1182,12 +1176,9 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 						continue;
 					}
 					System.out.println("web1: " + web1 + ". web2: " + web2);
-//					if (!web1.equals(web2)) {
-//						/**
-//						 * Skip other tempNodes
-//						 */
-//						continue;
-//					}
+					/*if (!web1.equals(web2)) {
+						continue;
+					}*/
 
 					// Only blocks with less than 100 chars of difference
 					// will be compared
@@ -1225,7 +1216,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 			folder = GraphVisualizer.getDestinationFolder().replaceAll("%20",
 					" ");// Patch to fix paths with white spaces
 
-			File archivo = new File(folder + "/" + file);
+			File archivo = new File(folder + System.getProperty("file.separator") + file);
 			StreamResult result = new StreamResult(archivo);
 
 			transformer.transform(source, result);
@@ -1252,7 +1243,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 		String date = sampleLocation;
 
-		// $ and _ limit where is the date
+		// BECAREFUL !! '$' and '_' limits where is the date
 		date = date.substring((date.indexOf("$") + 1), date.indexOf("_"));
 
 		// Put all the occurrences of this 'xpaths' into xpaths
@@ -1269,8 +1260,6 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 			System.out.println("analyzeSamples > treatSample xpaths: "
 					+ xpaths.get(i).toString());
 
-			// treatSampleXpath(web, sampleLocation, xpaths.get(i).toString());
-
 			webClient.setJavaScriptEnabled(false);
 			webClient.setCssEnabled(false);
 
@@ -1279,13 +1268,11 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 			try {
 				System.out.println("GraphVisualizer.getDestinationFolder(): "
 						+ "file:/" + GraphVisualizer.getDestinationFolder()
-						+ "/" + sampleLocation);
+						+ System.getProperty("file.separator") + sampleLocation);
 
 				currentPage = webClient.getPage("file://" + sampleLocation);
 
 				List<?> matches = currentPage.getByXPath(xpaths.get(i));
-
-//				System.out.println("matches: " + matches.get(0));
 
 				for (int j = 0; j < matches.size(); j++) {
 

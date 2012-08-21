@@ -250,7 +250,7 @@ public class GraphVisualizer extends AbstractVisualizer implements
 			File subfolder;
 
 			if (!isWindows) {
-				subfolder = new File(getDestinationFolder() + "/" + folderName);
+				subfolder = new File(getDestinationFolder() + System.getProperty("file.separator") + folderName);
 			} else {
 				subfolder = new File(getDestinationFolder() + "\\" + folderName);
 			}
@@ -258,7 +258,7 @@ public class GraphVisualizer extends AbstractVisualizer implements
 
 			File file;
 			if (!isWindows) {
-				file = new File(getDestinationFolder() + "/" + folderName + "/"
+				file = new File(getDestinationFolder() + System.getProperty("file.separator") + folderName + System.getProperty("file.separator")
 						+ filename);
 			} else {
 				file = new File(getDestinationFolder() + "\\" + folderName
@@ -272,12 +272,12 @@ public class GraphVisualizer extends AbstractVisualizer implements
 
 			writer.close();
 
-			logFile = new File(getDestinationFolder() + "/" + getLogFileName());
+			logFile = new File(getDestinationFolder() + System.getProperty("file.separator") + getLogFileName());
 
 			FileWriter writerLog = new FileWriter(logFile, true);
 
 			writerLog.append("#" + cleanUrl + "@");
-			writerLog.append(getDestinationFolder() + "/" + folderName + "/"
+			writerLog.append(getDestinationFolder() + System.getProperty("file.separator") + folderName + System.getProperty("file.separator")
 					+ filename + "\n");
 			writerLog.close();
 		} catch (IOException ex) {
@@ -753,9 +753,9 @@ public class GraphVisualizer extends AbstractVisualizer implements
 					setLogFileName("log.txt");
 					// setResultFileName("DAG" + testId + ".xml");
 
-					logFile = new File(getDestinationFolder() + "/"
+					logFile = new File(getDestinationFolder() + System.getProperty("file.separator")
 							+ getLogFileName());
-					// resultFile = new File(getDestinationFolder() + "/"
+					// resultFile = new File(getDestinationFolder() + System.getProperty("file.separator")
 					// + getResultFileName());
 					if (!logFile.exists()) {
 						FileWriter writerLog2 = new FileWriter(logFile);
