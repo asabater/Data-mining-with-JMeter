@@ -22,7 +22,10 @@ import java.awt.event.ActionListener;
 import java.net.URL;
 import java.math.*;
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.script.ScriptException;
 import javax.xml.parsers.ParserConfigurationException;
@@ -54,7 +57,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-import javax.swing.JFileChooser;
 import javax.swing.*;
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
@@ -750,6 +752,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 		}
 
 		orderNodes();
+		
 		// For each sample write an XML with da nodes
 		for (int i = 0; i < samples.size(); i++) {
 			System.out.println("analyzeSamples > samples loop i: " + i);
@@ -985,14 +988,6 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 		ArrayList<Integer> nodeList = new ArrayList<Integer>();
 
 		System.out.println("writeSamplesXmls");
-		// JOptionPane.showMessageDialog(null, "writeSamplesXmls");
-
-		// ArrayList<String> webs = getWebListComplete(); // Here we save all
-		// the
-		// URLS (string)
-		// ArrayList<String> samples = getSampleList(); // Here we save all
-		// .html
-		// samples
 
 		// for (int i = 0; i < samples.size(); i++) {
 		System.out.println("writeSamplesXmls sampleLocation:" + sampleLocation);
@@ -1077,12 +1072,17 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 					.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-
+		
+			Calendar cal = Calendar.getInstance();
+			DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd.HH.mm.ss");
+			
 			String fileName = sampleLocation;
 			fileName = fileName.replace(".html", "");
-			fileName = fileName + ".xml";
+			fileName = fileName + "-" + dateFormat.format(cal.getTime()) + ".xml";
+			
 
-			System.out.println("fileName" + fileName);
+
+			System.out.println("fileName:" + fileName);
 
 			String folder = GraphVisualizer.getDestinationFolder().replaceAll(
 					"%20", " ");// Patch to fix paths with
@@ -1285,9 +1285,9 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 				List<?> matches = currentPage.getByXPath(xpaths.get(i));
 
-				System.out.println("matches: " + matches.get(0));
+//				System.out.println("matches: " + matches.get(0));
 
-				for (int j = 0; i < matches.size(); j++) {
+				for (int j = 0; j < matches.size(); j++) {
 
 					tn = new TempNode(((HtmlDivision) matches.get(j)).asXml());
 					tn.setWeb(web);
@@ -1319,6 +1319,8 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 			} catch (Exception e) {
 				System.out.println("EXception at treatSampleXpath"
 						+ e.toString());
+				
+				e.printStackTrace();
 			}
 		}
 
