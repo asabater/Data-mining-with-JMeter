@@ -1032,7 +1032,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 				tagNodeSample.appendChild(dataSize);
 
 				dataEtiqueta = doc.createElement("data");
-				dataEtiqueta.setAttribute("key", "etiqueta");
+				dataEtiqueta.setAttribute("key", "source.code");
 
 				CDATASection cdata = doc.createCDATASection(tn.getContent());
 				dataEtiqueta.appendChild(cdata);
@@ -1128,7 +1128,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 			sizeNode.setAttribute("attr.type", "integer");
 
 			etiquetaNode = doc.createElement("key");
-			etiquetaNode.setAttribute("id", "etiqueta");
+			etiquetaNode.setAttribute("id", "source.code");
 			etiquetaNode.setAttribute("for", "node");
 			etiquetaNode.setAttribute("attr.name", "staring.tag");
 			etiquetaNode.setAttribute("attr.type", "string");

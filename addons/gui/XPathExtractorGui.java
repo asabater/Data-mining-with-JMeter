@@ -263,7 +263,7 @@ public class XPathExtractorGui extends AbstractPostProcessorGui {
 	private JPanel makeOptionParameterPanel() {
 		// int align = FlowLayout.LEFT; // or LEFT, RIGHT
 		JPanel panel = new JPanel();
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 		JPanel panel2 = new JPanel(new GridBagLayout());
 
 		TitledBorder title;
@@ -271,7 +271,7 @@ public class XPathExtractorGui extends AbstractPostProcessorGui {
 		panel.setBorder(title);
 
 		selectFolder = new JButton("Select destination");
-		labelselectFolder = new JLabel("HTML Downloader's Source:");
+		labelselectFolder = new JLabel("HTML Downloader's Folder:");
 
 		MySelectFolder msf = new MySelectFolder();
 		selectFolder.addActionListener(msf);
