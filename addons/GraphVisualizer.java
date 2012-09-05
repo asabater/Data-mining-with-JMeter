@@ -240,6 +240,8 @@ public class GraphVisualizer extends AbstractVisualizer implements
 			cleanUrl = cleanUrl.replace("http", "");
 			cleanUrl = cleanUrl.replace(":", "");
 			cleanUrl = cleanUrl.replace("//", "");
+			cleanUrl = cleanUrl.replace("?", "-");
+			cleanUrl = cleanUrl.replace("&.", "-");
 			// cleanUrl = cleanUrl.replace("www.", "");
 			cleanUrl = cleanUrl.replace("/", "");
 

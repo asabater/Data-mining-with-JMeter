@@ -83,7 +83,7 @@ public class TempNode {
 	 * @return the date
 	 */
 	public String getDate() {
-		return date;
+		return this.date;
 	}
 
 	/**
@@ -107,8 +107,8 @@ public class TempNode {
 	 * Adds a sample
 	 */
 	public void addSample(String sample) {
-		System.out.println("addSample" + sample);
-		System.out.println("addSample-samples" + this.samples.toString());
+		System.out.println("addSample" + sample); //$NON-NLS-1$
+		System.out.println("addSample-samples" + this.samples.toString()); //$NON-NLS-1$
 		try {
 			this.samples.add(sample);
 		} catch (Exception e) {

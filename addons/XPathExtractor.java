@@ -21,6 +21,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.math.*;
+import java.lang.Math;
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -746,7 +747,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 		}
 
 		orderNodes();
-		
+
 		// For each sample write an XML with da nodes
 		for (int i = 0; i < samples.size(); i++) {
 			System.out.println("analyzeSamples > samples loop i: " + i);
@@ -768,8 +769,9 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 		ArrayList<String> samples = new ArrayList<String>();
 
 		try {
-			
-			fileLog = new File(GraphVisualizer.getDestinationFolder() + System.getProperty("file.separator")
+
+			fileLog = new File(GraphVisualizer.getDestinationFolder()
+					+ System.getProperty("file.separator")
 					+ GraphVisualizer.getLogFileName());
 
 			FileReader fr = new FileReader(fileLog);
@@ -813,10 +815,12 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 		ArrayList<String> webs = new ArrayList<String>();
 
 		System.out.println("getWebList> logFile:"
-				+ GraphVisualizer.getDestinationFolder() + System.getProperty("file.separator")
+				+ GraphVisualizer.getDestinationFolder()
+				+ System.getProperty("file.separator")
 				+ GraphVisualizer.getLogFileName());
 		try {
-			fileLog = new File(GraphVisualizer.getDestinationFolder() + System.getProperty("file.separator")
+			fileLog = new File(GraphVisualizer.getDestinationFolder()
+					+ System.getProperty("file.separator")
 					+ GraphVisualizer.getLogFileName());
 
 			FileReader fr = new FileReader(fileLog);
@@ -859,7 +863,8 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 		ArrayList<String> webs = new ArrayList<String>();
 
 		System.out.println("getWebList> logFile:"
-				+ GraphVisualizer.getDestinationFolder() + System.getProperty("file.separator")
+				+ GraphVisualizer.getDestinationFolder()
+				+ System.getProperty("file.separator")
 				+ GraphVisualizer.getLogFileName());
 		try {
 			fileLog = new File(GraphVisualizer.getDestinationFolder() + "/"
@@ -1066,15 +1071,14 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 					.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-		
+
 			Calendar cal = Calendar.getInstance();
 			DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd.HH.mm.ss");
-			
+
 			String fileName = sampleLocation;
 			fileName = fileName.replace(".html", "");
-			fileName = fileName + "-" + dateFormat.format(cal.getTime()) + ".xml";
-			
-
+			fileName = fileName + "-" + dateFormat.format(cal.getTime())
+					+ ".xml";
 
 			System.out.println("fileName:" + fileName);
 
@@ -1105,6 +1109,8 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 		String file;
 		String folder;
 		String web1, web2;
+		int size1, size2;
+		int dist; //Levi.distance
 		TempNode tn, tn2;
 		System.out.println("writeResultsXml2");
 		try {
@@ -1167,23 +1173,19 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 					if (j == i) {
 						continue;
 					}
+					
 					tn2 = listNodes.get(j);
 					String content2 = tn2.getContent();
 
-
 					web2 = tn2.getWeb();
-					if (web2 == null){
+					if (web2 == null) { //avoid initial nodes
 						continue;
 					}
-					System.out.println("web1: " + web1 + ". web2: " + web2);
-					/*if (!web1.equals(web2)) {
-						continue;
-					}*/
 
 					// Only blocks with less than 100 chars of difference
 					// will be compared
-					if (Math.abs(content2.length() - content.length()) < 100) {
-						int dist = LevenshteinDistance
+					if (Math.abs(content2.length() - content.length()) < 10) {
+						dist = LevenshteinDistance
 								.computeLevenshteinDistance(tn.getContent(),
 										tn2.getContent());
 						edgeNode = doc.createElement("edge");
@@ -1198,6 +1200,8 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 
 						rootElement.appendChild(edgeNode);
 
+					} else {
+						continue;
 					}
 
 				}
@@ -1216,7 +1220,8 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 			folder = GraphVisualizer.getDestinationFolder().replaceAll("%20",
 					" ");// Patch to fix paths with white spaces
 
-			File archivo = new File(folder + System.getProperty("file.separator") + file);
+			File archivo = new File(folder
+					+ System.getProperty("file.separator") + file);
 			StreamResult result = new StreamResult(archivo);
 
 			transformer.transform(source, result);
@@ -1266,9 +1271,12 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 			TempNode tn;
 			// webClient
 			try {
-				System.out.println("GraphVisualizer.getDestinationFolder(): "
-						+ "file:/" + GraphVisualizer.getDestinationFolder()
-						+ System.getProperty("file.separator") + sampleLocation);
+				System.out
+						.println("GraphVisualizer.getDestinationFolder(): "
+								+ "file:/"
+								+ GraphVisualizer.getDestinationFolder()
+								+ System.getProperty("file.separator")
+								+ sampleLocation);
 
 				currentPage = webClient.getPage("file://" + sampleLocation);
 
@@ -1306,7 +1314,7 @@ public class XPathExtractor extends AbstractScopedTestElement implements
 			} catch (Exception e) {
 				System.out.println("EXception at treatSampleXpath"
 						+ e.toString());
-				
+
 				e.printStackTrace();
 			}
 		}
